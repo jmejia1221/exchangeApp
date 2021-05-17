@@ -29,7 +29,7 @@ const Home = () => {
         };
 
         getRates();
-    }, [ratesData]);
+    }, []);
 
     const addNewConverterHandler = (component) => {
         setConverterList([...converterList, component]);
