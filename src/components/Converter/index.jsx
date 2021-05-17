@@ -4,13 +4,15 @@ import React, {useEffect, useState} from "react";
 import ratesApi from '../../services/converter_service';
 
 // Libs
-import _ from 'lodash';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faSync} from "@fortawesome/free-solid-svg-icons";
 
 // Components
 import Input from "../UI/Input";
 
 // CSS
 import styles from './converter.module.scss';
+import Select from "../UI/Select";
 
 const Converter = ({ data }) => {
     const [exchangeSource, setExchangeSource] = useState(0);
@@ -21,7 +23,7 @@ const Converter = ({ data }) => {
 
     const [dateValue, setDateValue] = useState('latest');
 
-    let temp1, temp2 = null;
+    let ratesKey = [];
 
     useEffect(() => {
         if (dateValue !== 'latest') {
@@ -61,7 +63,7 @@ const Converter = ({ data }) => {
         baseApi(value, base, symbol, name);
     }
 
-    const rateHandler = (type, rate) => {
+    const rateHandler = (rate, type) => {
         if (type === 'source') setBaseRate(rate);
         if (type === 'target') setTargetBaseRate(rate);
     }
@@ -71,11 +73,8 @@ const Converter = ({ data }) => {
     }
 
     if (data?.rates) {
-        temp1 = Object.keys(data.rates).map(rate => {
-            return <button onClick={() => rateHandler('source', rate)} key={_.uniqueId()}>{rate}</button>
-        });
-        temp2 = Object.keys(data.rates).map(rate => {
-            return <button onClick={() => rateHandler('target', rate)} key={_.uniqueId()}>{rate}</button>
+        ratesKey = Object.keys(data.rates).map(key => {
+            return {label: key, value: key}
         });
     }
     return (
@@ -83,20 +82,38 @@ const Converter = ({ data }) => {
             <header>
                 <Input type="date" onChange={dateHandler} />
             </header>
-            <div>
+            <div className={styles.source}>
                 <header>
-                    {temp1}
+                    <Select
+                        items={ratesKey}
+                        value={baseRate}
+                        onchange={(v) => rateHandler(v, 'source')} />
                 </header>
-                <Input name="source" value={exchangeSource} onChange={exchangeHandler} type="number" />
+                <Input
+                    className={styles.input}
+                    name="source"
+                    value={exchangeSource}
+                    onChange={exchangeHandler}
+                    type="number" />
             </div>
-            <div>
-                <button onClick={swapExchangeHandler}>Swap</button>
+            <div className={styles.swapConverter}>
+                <button className={styles.swapButton} onClick={swapExchangeHandler}>
+                    <FontAwesomeIcon icon={faSync} />
+                </button>
             </div>
-            <div>
+            <div className={styles.target}>
                 <header>
-                    {temp2}
+                    <Select
+                        items={ratesKey}
+                        value={targetBaseRate}
+                        onchange={(v) => rateHandler(v, 'target')} />
                 </header>
-                <Input name="target" value={exchangeTarget} onChange={exchangeHandler} type="number" />
+                <Input
+                    className={styles.input}
+                    name="target"
+                    value={exchangeTarget}
+                    onChange={exchangeHandler}
+                    type="number" />
             </div>
         </section>
     );

@@ -1,8 +1,15 @@
 .container {
   padding: 2rem;
   .title {
+    margin: 2rem 0 4rem;
     font-size: 3.8rem;
     text-align: center;
     font-weight: 100;
+  }
+  .header {
+    .button {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 }

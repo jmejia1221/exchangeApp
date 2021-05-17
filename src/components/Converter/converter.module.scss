@@ -1,6 +1,41 @@
 .container {
   padding: 1.5rem;
   border-radius: .5rem;
-  margin-top: 1rem;
-  background-color: var(--gray-2);
+  margin: 1rem 0;
+  border: 1px solid var(--primary-light);
+  .input {
+    border-radius: .5rem;
+    margin-top: 1.5rem;
+  }
+  .swapConverter {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    padding: 2rem 0;
+    &:before {
+      content: "";
+      position: absolute;
+      height: .1rem;
+      left: 0;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--primary-light);
+    }
+    .swapButton {
+      position: relative;
+      z-index: 1;
+      border-radius: 20rem;
+      cursor: pointer;
+      padding: 1rem 1.5rem;
+      color: var(--primary);
+      background-color: var(--gray-1);
+      border: 1px solid var(--primary);
+      transition: background-color .3s;
+      &:hover {
+        color: var(--gray-1);
+        background-color: var(--primary);
+      }
+    }
+  }
 }

@@ -1,0 +1,36 @@
+.container {
+  .title {
+    font-size: 3rem;
+    margin: 2rem 0;
+  }
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2rem;
+  }
+  .rateList {
+    margin-top: 2rem;
+    li {
+      display: flex;
+      border-bottom: 1px solid var(--primary-light);
+      strong {
+        color: var(--primary);
+        font-size: 2rem;
+      }
+      span,
+      strong {
+        flex: 1;
+        padding: 1rem;
+      }
+      span:first-child {
+        font-weight: bold;
+      }
+    }
+  }
+  .graph {
+    width: 97.5%;
+    margin: 2rem;
+    overflow: hidden;
+    overflow-x: auto;
+  }
+}
