@@ -139,7 +139,7 @@ const Converter = ({ id, data, isRemovable, removeHandler }) => {
                             onchange={(value) => rateHandler(value, 'target')} />
                     </header>
                     <Input
-                        placeholder="$82"
+                        placeholder="$121"
                         className={styles.input}
                         name="target"
                         value={exchangeTarget}
