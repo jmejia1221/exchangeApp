@@ -1,7 +1,17 @@
+.label {
+  font-size: 1.2rem;
+  color: var(--gray-4);
+  margin-left: .5rem;
+}
 .input {
   width: 100%;
   padding: .5rem;
   font-weight: 100;
-  font-size: 3rem;
+  font-size: 2rem;
   border: none;
+  border-radius: .5rem;
+  &[type="date"] {
+    cursor: pointer;
+    box-shadow: 3px 3px 12px var(--gray-3);
+  }
 }

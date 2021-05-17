@@ -5,6 +5,11 @@
   &.selectFocused {
     z-index: 10;
   }
+  .placeholder {
+    font-size: 1.2rem;
+    color: var(--gray-4);
+    margin-left: 1rem;
+  }
   .holder {
     display: flex;
     align-items: center;

@@ -16,7 +16,7 @@ import styles from './Home.module.scss';
 
 const Home = () => {
     const [ratesData, setRatesData] = useState();
-    const [newConverter, setNewConverter] = useState([]);
+    const [converterList, setConverterList] = useState([]);
 
     useEffect(() => {
         const getRates = async () => {
@@ -28,7 +28,15 @@ const Home = () => {
     }, []);
 
     const addNewConverterHandler = (component) => {
-        setNewConverter([...newConverter, component]);
+        setConverterList([...converterList, component]);
+    }
+
+    const removeConverterHandler = (id) => {
+        const converterListCopy = [...converterList];
+        const newConverterList = converterListCopy.filter(converter => {
+            return converter.id !== id
+        });
+        setConverterList(newConverterList)
     }
 
     return (
@@ -36,12 +44,24 @@ const Home = () => {
             <header className={styles.header}>
                 <h1 className={styles.title}>Exchange money</h1>
                 <div className={styles.button}>
-                    <Button onClick={() => addNewConverterHandler(Converter)}>Add converter</Button>
+                    <Button onClick={() => addNewConverterHandler({
+                        id: _.uniqueId(),
+                        key: _.uniqueId('cvt')
+                    })}>
+                        Add converter
+                    </Button>
                 </div>
             </header>
             <Converter data={ratesData} />
-            {newConverter.map(converter => {
-                return <Converter key={_.uniqueId()} data={ratesData} />
+            {converterList.map(cvt => {
+                return (
+                    <Converter
+                        id={cvt.id}
+                        removeHandler={removeConverterHandler}
+                        key={cvt.key}
+                        isRemovable={true}
+                        data={ratesData} />
+                );
             })}
             <LiveExchange />
         </div>

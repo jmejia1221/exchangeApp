@@ -5,7 +5,7 @@ import ratesApi from '../../services/converter_service';
 
 // Libs
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faSync} from "@fortawesome/free-solid-svg-icons";
+import {faSync, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
 // Components
 import Input from "../UI/Input";
@@ -13,10 +13,11 @@ import Input from "../UI/Input";
 // CSS
 import styles from './converter.module.scss';
 import Select from "../UI/Select";
+import classNames from "classnames";
 
-const Converter = ({ data }) => {
-    const [exchangeSource, setExchangeSource] = useState(0);
-    const [exchangeTarget, setExchangeTarget] = useState(0);
+const Converter = ({ id, data, isRemovable, removeHandler }) => {
+    const [exchangeSource, setExchangeSource] = useState('');
+    const [exchangeTarget, setExchangeTarget] = useState('');
 
     const [baseRate, setBaseRate] = useState('EUR');
     const [targetBaseRate, setTargetBaseRate] = useState('USD');
@@ -32,7 +33,12 @@ const Converter = ({ data }) => {
     }, [dateValue])
 
     const baseApi = async (value, base, symbol, sourceType) => {
-        const data = await ratesApi.get(`/${dateValue}?base=${base}&symbols=${symbol}`);
+        const data = await ratesApi.get(`/${dateValue}`, {
+            params: {
+                base,
+                symbols: symbol
+            }
+        });
         const computeRate = value * data.data.rates[symbol];
         if (sourceType === 'target') setExchangeSource(computeRate)
         if (sourceType === 'source') setExchangeTarget(computeRate)
@@ -59,7 +65,12 @@ const Converter = ({ data }) => {
             symbol = baseRate;
         }
 
-        if (!value) return;
+        if (!value) {
+            setExchangeTarget('');
+            setExchangeSource('');
+            return;
+        }
+
         baseApi(value, base, symbol, name);
     }
 
@@ -78,43 +89,58 @@ const Converter = ({ data }) => {
         });
     }
     return (
-        <section className={styles.container}>
-            <header>
-                <Input type="date" onChange={dateHandler} />
+        <section className={classNames(styles.container, {[styles.isRemovable]: isRemovable})}>
+            <header className={styles.header}>
+                <Input label="Change date conversion" type="date" onChange={dateHandler} />
+                {isRemovable && (
+                    <span
+                        className={styles.removeConverter}
+                        onClick={() => removeHandler(id)}
+                    >
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                        Remove converter
+                    </span>
+                )}
             </header>
-            <div className={styles.source}>
-                <header>
-                    <Select
-                        items={ratesKey}
-                        value={baseRate}
-                        onchange={(v) => rateHandler(v, 'source')} />
-                </header>
-                <Input
-                    className={styles.input}
-                    name="source"
-                    value={exchangeSource}
-                    onChange={exchangeHandler}
-                    type="number" />
-            </div>
-            <div className={styles.swapConverter}>
-                <button className={styles.swapButton} onClick={swapExchangeHandler}>
-                    <FontAwesomeIcon icon={faSync} />
-                </button>
-            </div>
-            <div className={styles.target}>
-                <header>
-                    <Select
-                        items={ratesKey}
-                        value={targetBaseRate}
-                        onchange={(v) => rateHandler(v, 'target')} />
-                </header>
-                <Input
-                    className={styles.input}
-                    name="target"
-                    value={exchangeTarget}
-                    onChange={exchangeHandler}
-                    type="number" />
-            </div>
+            <section className={styles.body}>
+                <div className={styles.source}>
+                    <header>
+                        <Select
+                            placeholder="From"
+                            items={ratesKey}
+                            value={baseRate}
+                            onchange={(v) => rateHandler(v, 'source')} />
+                    </header>
+                    <Input
+                        placeholder="€100"
+                        className={styles.input}
+                        name="source"
+                        value={exchangeSource}
+                        onChange={exchangeHandler}
+                        type="number" />
+                </div>
+                <div className={styles.swapConverter}>
+                    <button className={styles.swapButton} onClick={swapExchangeHandler}>
+                        <FontAwesomeIcon icon={faSync} />
+                    </button>
+                </div>
+                <div className={styles.target}>
+                    <header>
+                        <Select
+                            placeholder="To"
+                            items={ratesKey}
+                            value={targetBaseRate}
+                            onchange={(value) => rateHandler(value, 'target')} />
+                    </header>
+                    <Input
+                        placeholder="$82"
+                        className={styles.input}
+                        name="target"
+                        value={exchangeTarget}
+                        onChange={exchangeHandler}
+                        type="number" />
+                </div>
+            </section>
         </section>
     );
 };

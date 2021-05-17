@@ -10,7 +10,7 @@ import styles from './Select.module.scss';
 import useOnclickOutside from "../../../hooks/useOnclickOutside";
 import classNames from "classnames";
 
-const Select = ({ items=[], onchange, value, defaultValue }) => {
+const Select = ({ items=[], onchange, value, defaultValue, placeholder }) => {
     const [toggleSelect, setToggleSelect] = useState(false);
     const selectRef = useRef(null);
     useOnclickOutside(selectRef, () => setToggleSelect(false));
@@ -38,6 +38,7 @@ const Select = ({ items=[], onchange, value, defaultValue }) => {
 
     return (
         <div ref={selectRef} className={classNames(styles.content, {[styles.selectFocused]: toggleSelect})}>
+            {placeholder && <span className={styles.placeholder}>{placeholder}</span>}
             <span className={styles.holder} onClick={selectHandler}>
                 {value || defaultValue}
                 <span className={styles.icon}>

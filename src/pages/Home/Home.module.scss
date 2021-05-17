@@ -1,3 +1,5 @@
+@import 'src/globalStyles/mixins';
+
 .container {
   padding: 2rem;
   .title {
@@ -11,5 +13,12 @@
       display: flex;
       justify-content: flex-end;
     }
+  }
+}
+
+@include media("tab-land") {
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
   }
 }

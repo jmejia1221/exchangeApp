@@ -1,36 +1,73 @@
+@import '/src/globalStyles/mixins';
+
 .container {
-  .title {
-    font-size: 3rem;
-    margin: 2rem 0;
-  }
-  .actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 2rem;
-  }
-  .rateList {
-    margin-top: 2rem;
-    li {
-      display: flex;
-      border-bottom: 1px solid var(--primary-light);
-      strong {
-        color: var(--primary);
-        font-size: 2rem;
-      }
-      span,
-      strong {
-        flex: 1;
-        padding: 1rem;
-      }
-      span:first-child {
-        font-weight: bold;
+  .header {
+    .title {
+      font-size: 3rem;
+      margin: 2rem 0;
+    }
+    .actions {
+      display: grid;
+      grid-column-gap: 2rem;
+      gap: 2rem;
+      max-width: 40rem;
+      input {
+        align-self: end;
       }
     }
   }
-  .graph {
-    width: 97.5%;
-    margin: 2rem;
-    overflow: hidden;
-    overflow-x: auto;
+  .body {
+    .rateList {
+      margin-top: 2rem;
+      li {
+        display: flex;
+        border-bottom: 1px solid var(--primary-light);
+        strong {
+          color: var(--primary);
+          font-size: 2rem;
+        }
+        span,
+        strong {
+          flex: 1;
+          padding: 1rem;
+        }
+        span:first-child {
+          font-weight: bold;
+        }
+      }
+    }
+    .graph {
+      width: 97.5%;
+      margin: 2rem;
+      overflow: hidden;
+      overflow-x: auto;
+    }
+  }
+}
+
+@include media("tab-port") {
+  .container {
+    .header {
+      .title {
+        margin-top: 4rem;
+      }
+      .actions {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      .rateList {
+        .sublist {
+          max-height: 60rem;
+          overflow: hidden;
+          overflow-y: auto;
+        }
+      }
+      .graphContainer {
+        max-width: 60rem;
+      }
+    }
   }
 }
