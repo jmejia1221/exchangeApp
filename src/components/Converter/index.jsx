@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 // Service
 import ratesApi from '../../services/converter_service';
@@ -13,20 +13,34 @@ import Input from "../UI/Input";
 import styles from './converter.module.scss';
 
 const Converter = ({ data }) => {
-    console.log(data)
     const [exchangeSource, setExchangeSource] = useState(0);
     const [exchangeTarget, setExchangeTarget] = useState(0);
 
     const [baseRate, setBaseRate] = useState('EUR');
     const [targetBaseRate, setTargetBaseRate] = useState('USD');
 
+    const [dateValue, setDateValue] = useState('latest');
+
     let temp1, temp2 = null;
 
+    useEffect(() => {
+        if (dateValue !== 'latest') {
+            baseApi(exchangeSource, targetBaseRate, baseRate, 'source');
+        }
+    }, [dateValue])
+
     const baseApi = async (value, base, symbol, sourceType) => {
-        const data = await ratesApi.get(`/latest?base=${base}&symbols=${symbol}`);
+        const data = await ratesApi.get(`/${dateValue}?base=${base}&symbols=${symbol}`);
         const computeRate = value * data.data.rates[symbol];
         if (sourceType === 'target') setExchangeSource(computeRate)
         if (sourceType === 'source') setExchangeTarget(computeRate)
+    }
+
+    const swapExchangeHandler = () => {
+        setBaseRate(targetBaseRate)
+        setTargetBaseRate(baseRate)
+        setExchangeTarget(exchangeSource)
+        setExchangeSource(exchangeTarget)
     }
 
     const exchangeHandler = (e) => {
@@ -43,13 +57,17 @@ const Converter = ({ data }) => {
             symbol = baseRate;
         }
 
+        if (!value) return;
         baseApi(value, base, symbol, name);
     }
 
     const rateHandler = (type, rate) => {
-        console.log(rate)
         if (type === 'source') setBaseRate(rate);
         if (type === 'target') setTargetBaseRate(rate);
+    }
+
+    const dateHandler = (e) => {
+        setDateValue(e.target.value);
     }
 
     if (data?.rates) {
@@ -62,6 +80,9 @@ const Converter = ({ data }) => {
     }
     return (
         <section className={styles.container}>
+            <header>
+                <Input type="date" onChange={dateHandler} />
+            </header>
             <div>
                 <header>
                     {temp1}
@@ -69,7 +90,7 @@ const Converter = ({ data }) => {
                 <Input name="source" value={exchangeSource} onChange={exchangeHandler} type="number" />
             </div>
             <div>
-                <button>Swap</button>
+                <button onClick={swapExchangeHandler}>Swap</button>
             </div>
             <div>
                 <header>

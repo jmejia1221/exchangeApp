@@ -8,6 +8,7 @@ import Converter from "../../components/Converter";
 
 // CSS
 import styles from './Home.module.scss';
+import LiveExchange from "../../components/LiveExchange";
 
 const Home = () => {
     const [ratesData, setRatesData] = useState();
@@ -27,6 +28,7 @@ const Home = () => {
                 <h1 className={styles.title}>Exchange money</h1>
             </header>
             <Converter data={ratesData} />
+            <LiveExchange />
         </div>
     );
 };
