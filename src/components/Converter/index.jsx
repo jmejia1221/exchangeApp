@@ -6,14 +6,14 @@ import ratesApi from '../../services/converter_service';
 // Libs
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faSync, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import classNames from "classnames";
 
 // Components
 import Input from "../UI/Input";
+import Select from "../UI/Select";
 
 // CSS
 import styles from './converter.module.scss';
-import Select from "../UI/Select";
-import classNames from "classnames";
 
 const Converter = ({ id, data, isRemovable, removeHandler }) => {
     const [exchangeSource, setExchangeSource] = useState('');
@@ -49,10 +49,10 @@ const Converter = ({ id, data, isRemovable, removeHandler }) => {
     }
 
     const swapExchangeHandler = () => {
-        setBaseRate(targetBaseRate)
-        setTargetBaseRate(baseRate)
-        setExchangeTarget(exchangeSource)
-        setExchangeSource(exchangeTarget)
+        setBaseRate(targetBaseRate);
+        setTargetBaseRate(baseRate);
+        setExchangeTarget(exchangeSource);
+        setExchangeSource(exchangeTarget);
     }
 
     const exchangeHandler = (e) => {
@@ -78,11 +78,13 @@ const Converter = ({ id, data, isRemovable, removeHandler }) => {
         baseApi(value, base, symbol, name);
     }
 
+    // Change rate type
     const rateHandler = (rate, type) => {
         if (type === 'source') setBaseRate(rate);
         if (type === 'target') setTargetBaseRate(rate);
     }
 
+    // Change date rate
     const dateHandler = (e) => {
         setDateValue(e.target.value);
     }
@@ -102,7 +104,7 @@ const Converter = ({ id, data, isRemovable, removeHandler }) => {
                         onClick={() => removeHandler(id)}
                     >
                         <FontAwesomeIcon icon={faTrashAlt} />
-                        Remove converter
+                        <span className={styles.text}>Remove converter</span>
                     </span>
                 )}
             </header>

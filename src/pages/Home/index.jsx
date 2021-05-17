@@ -19,7 +19,7 @@ const Home = () => {
     const [ratesData, setRatesData] = useState();
     const [converterList, setConverterList] = useState([]);
 
-    let renderHome = <Spinner />
+    let renderHome = <Spinner />;
 
     useEffect(() => {
         const getRates = async () => {
@@ -41,7 +41,7 @@ const Home = () => {
     const removeConverterHandler = (id) => {
         const converterListCopy = [...converterList];
         const newConverterList = converterListCopy.filter(converter => {
-            return converter.id !== id
+            return converter.id !== id;
         });
         setConverterList(newConverterList);
     }
@@ -73,7 +73,7 @@ const Home = () => {
                 })}
                 <LiveExchange />
             </>
-    )
+        );
     }
 
     return (
@@ -83,4 +83,4 @@ const Home = () => {
     );
 };
 
-export default  Home;
+export default Home;

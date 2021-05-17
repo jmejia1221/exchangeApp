@@ -6,14 +6,14 @@ import {CartesianGrid, Area, AreaChart, Tooltip, XAxis, YAxis} from "recharts";
 
 // Components
 import Select from "../UI/Select";
+import Spinner from "../UI/Spinner";
+import Input from "../UI/Input";
 
 // Services
 import ratesApi from "../../services/converter_service";
-import Input from "../UI/Input";
 
 // CSS
 import styles from './LiveExchange.module.scss';
-import Spinner from "../UI/Spinner";
 
 const LiveExchange = () => {
     const [ratesData, setRatesData] = useState({});

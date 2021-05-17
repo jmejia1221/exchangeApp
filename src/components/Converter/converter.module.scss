@@ -21,6 +21,10 @@
       border-top-left-radius: .5rem;
       border-top-right-radius: .5rem;
       color: var(--primary);
+      .text {
+        display: inline-block;
+        margin-left: 1rem;
+      }
     }
   }
   .input {
