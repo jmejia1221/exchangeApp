@@ -13,6 +13,7 @@ import Input from "../UI/Input";
 
 // CSS
 import styles from './LiveExchange.module.scss';
+import Spinner from "../UI/Spinner";
 
 const LiveExchange = () => {
     const [ratesData, setRatesData] = useState({});
@@ -26,7 +27,7 @@ const LiveExchange = () => {
         setSelectValue(defaultBase);
     }, [dateSelected])
 
-    let rateListItems = null;
+    let rateListItems = <Spinner />;
     let selectOptions = [];
     let dataChart = [];
 
