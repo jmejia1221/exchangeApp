@@ -33,15 +33,19 @@ const Converter = ({ id, data, isRemovable, removeHandler }) => {
     }, [dateValue])
 
     const baseApi = async (value, base, symbol, sourceType) => {
-        const data = await ratesApi.get(`/${dateValue}`, {
-            params: {
-                base,
-                symbols: symbol
-            }
-        });
-        const computeRate = value * data.data.rates[symbol];
-        if (sourceType === 'target') setExchangeSource(computeRate)
-        if (sourceType === 'source') setExchangeTarget(computeRate)
+        try {
+            const data = await ratesApi.get(`/${dateValue}`, {
+                params: {
+                    base,
+                    symbols: symbol
+                }
+            });
+            const computeRate = value * data.data.rates[symbol];
+            if (sourceType === 'target') setExchangeSource(computeRate)
+            if (sourceType === 'source') setExchangeTarget(computeRate)
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     const swapExchangeHandler = () => {

@@ -52,12 +52,16 @@ const LiveExchange = () => {
     }
 
     const baseApi = async (value) => {
-        const data = await ratesApi.get(`/${dateSelected}`, {
-            params: {
-                base: value
-            }
-        });
-        setRatesData(data.data);
+        try {
+            const data = await ratesApi.get(`/${dateSelected}`, {
+                params: {
+                    base: value
+                }
+            });
+            setRatesData(data.data);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     const selectBaseHandler = (value) => {

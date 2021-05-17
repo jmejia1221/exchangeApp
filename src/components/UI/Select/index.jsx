@@ -5,9 +5,11 @@ import _ from 'lodash';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSortDown, faSortUp} from "@fortawesome/free-solid-svg-icons";
 
+// Custom Hooks
+import useOnclickOutside from "../../../hooks/useOnclickOutside";
+
 // CSS
 import styles from './Select.module.scss';
-import useOnclickOutside from "../../../hooks/useOnclickOutside";
 import classNames from "classnames";
 
 const Select = ({ items=[], onchange, value, defaultValue, placeholder }) => {

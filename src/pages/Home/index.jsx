@@ -20,12 +20,16 @@ const Home = () => {
 
     useEffect(() => {
         const getRates = async () => {
-            const response = await ratesApi.get('/latest');
-            setRatesData(response.data);
+            try {
+                const response = await ratesApi.get('/latest');
+                setRatesData(response.data);
+            } catch (err) {
+                console.error(err);
+            }
         };
 
         getRates();
-    }, []);
+    }, [ratesData]);
 
     const addNewConverterHandler = (component) => {
         setConverterList([...converterList, component]);
