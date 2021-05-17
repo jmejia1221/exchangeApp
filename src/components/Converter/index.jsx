@@ -28,7 +28,7 @@ const Converter = ({ id, data, isRemovable, removeHandler }) => {
 
     useEffect(() => {
         if (dateValue !== 'latest') {
-            baseApi(exchangeSource, targetBaseRate, baseRate, 'source');
+            baseApi(exchangeSource, baseRate, targetBaseRate, 'source');
         }
     }, [dateValue])
 
@@ -41,8 +41,8 @@ const Converter = ({ id, data, isRemovable, removeHandler }) => {
                 }
             });
             const computeRate = value * data.data.rates[symbol];
-            if (sourceType === 'target') setExchangeSource(computeRate)
-            if (sourceType === 'source') setExchangeTarget(computeRate)
+            if (sourceType === 'target') setExchangeSource(computeRate);
+            if (sourceType === 'source') setExchangeTarget(computeRate);
         } catch (err) {
             console.error(err);
         }
@@ -75,7 +75,7 @@ const Converter = ({ id, data, isRemovable, removeHandler }) => {
             return;
         }
 
-        baseApi(value, base, symbol, name);
+        baseApi(value, symbol, base, name);
     }
 
     // Change rate type
